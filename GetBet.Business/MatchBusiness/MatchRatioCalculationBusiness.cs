@@ -34,7 +34,8 @@ namespace GetBet.Business.MatchBusiness
                 playModel.Score01 = match.MA.FirstOrDefault(x => x.MTID == 205)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
                 playModel.Score10 = match.MA.FirstOrDefault(x => x.MTID == 205)?.OCA.FirstOrDefault(z => z.N == 17)?.O;
                 playModel.DateTime = Convert.ToDateTime($"{match.D} {match.T}");
-
+                playModel.HasMutualScoring = false;
+                playModel.TwoUpGoals = false;
 
 
                 double fark = 5;

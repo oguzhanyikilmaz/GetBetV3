@@ -70,7 +70,13 @@ namespace GetBet.Business.PlayModelBusiness
                 playModel.ScoreTeam1 = result.Doc.First().Data.Match.Result.Home;
                 playModel.ScoreTeam2 = result.Doc.First().Data.Match.Result.Away;
 
-                _unitOfWork.Plays.InsertOne(playModel);
+                if (playModel.ScoreTeam1 > 0 && playModel.ScoreTeam2 > 0)
+                    playModel.HasMutualScoring = true;
+
+                if(playModel.ScoreTeam1+playModel.ScoreTeam2>2)
+                    playModel.TwoUpGoals = true;
+
+                _unitOfWork.Plays.ReplaceOne(playModel,playModel.Id.ToString());
             }
         }
     }

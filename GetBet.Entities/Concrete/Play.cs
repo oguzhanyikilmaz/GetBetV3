@@ -16,6 +16,9 @@
         public double? Score01 { get; set; }
         public int ScoreTeam1 { get; set; }
         public int ScoreTeam2 { get; set; }
+
+        public bool HasMutualScoring { get; set; }
+        public bool TwoUpGoals { get; set; }
         public DateTime DateTime { get; set; }
     }
 }
