@@ -45,7 +45,14 @@ namespace GetBet.Business.PlayModelBusiness
 
             if (playModels.Count()>0 && playModels!=null)
             {
-                _unitOfWork.Plays.InsertMany(playModels);
+                foreach (var playModel in playModels)
+                {
+                    var dbModel = _unitOfWork.Plays.FilterBy(x => x.MatchId == playModel.MatchId);
+
+                    if (dbModel.Result==null || dbModel.Result.Count()==0)
+                        _unitOfWork.Plays.InsertMany(playModels);
+
+                }
 
                 string jsonPlayModels = JsonConvert.SerializeObject(playModels.OrderBy(x => x.DateTime));
 
