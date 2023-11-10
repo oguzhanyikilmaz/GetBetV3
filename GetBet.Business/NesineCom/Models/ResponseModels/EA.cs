@@ -5,19 +5,19 @@ namespace GetBet.Business.NesineCom.Models.ResponseModels
     public class EA
     {
         [JsonProperty("C")]
-        public int C { get; set; }
+       public int? C { get; set; }
 
         [JsonProperty("EV")]
-        public int EV { get; set; }
+       public int? EV { get; set; }
 
         [JsonProperty("ENN")]
         public string ENN { get; set; }
 
         [JsonProperty("TYPE")]
-        public int TYPE { get; set; }
+       public int? TYPE { get; set; }
 
         [JsonProperty("GT")]
-        public int GT { get; set; }
+       public int? GT { get; set; }
 
         [JsonProperty("D")]
         public string D { get; set; }
@@ -35,25 +35,25 @@ namespace GetBet.Business.NesineCom.Models.ResponseModels
         public string T { get; set; }
 
         [JsonProperty("P")]
-        public int P { get; set; }
+       public int? P { get; set; }
 
         [JsonProperty("LC")]
-        public int LC { get; set; }
+       public int? LC { get; set; }
 
         [JsonProperty("BC")]
         public string BC { get; set; }
 
         [JsonProperty("LE")]
-        public int LE { get; set; }
+       public int? LE { get; set; }
 
         [JsonProperty("BP")]
-        public int BP { get; set; }
+       public int? BP { get; set; }
 
         [JsonProperty("BS")]
-        public int BS { get; set; }
+       public int? BS { get; set; }
 
         [JsonProperty("NS")]
-        public int NS { get; set; }
+       public int? NS { get; set; }
 
         [JsonProperty("MA")]
         public List<MA> MA { get; set; }
@@ -62,10 +62,10 @@ namespace GetBet.Business.NesineCom.Models.ResponseModels
         public List<MSA> MSA { get; set; }
 
         [JsonProperty("CE")]
-        public int CE { get; set; }
+       public int? CE { get; set; }
 
         [JsonProperty("BRID")]
-        public int BRID { get; set; }
+       public int? BRID { get; set; }
 
         [JsonProperty("HN")]
         public string HN { get; set; }

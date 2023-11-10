@@ -13,22 +13,22 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public string Doc { get; set; }
 
         [JsonProperty("_id")]
-        public int Id { get; set; }
+       public int? Id { get; set; }
 
         [JsonProperty("_sid")]
-        public int Sid { get; set; }
+       public int? Sid { get; set; }
 
         [JsonProperty("_rcid")]
-        public int Rcid { get; set; }
+       public int? Rcid { get; set; }
 
         [JsonProperty("_isk")]
-        public int Isk { get; set; }
+       public int? Isk { get; set; }
 
         [JsonProperty("_tid")]
-        public int Tid { get; set; }
+       public int? Tid { get; set; }
 
         [JsonProperty("_utid")]
-        public int Utid { get; set; }
+       public int? Utid { get; set; }
 
         [JsonProperty("_gender")]
         public string Gender { get; set; }
@@ -46,10 +46,10 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public bool Friendly { get; set; }
 
         [JsonProperty("seasonid")]
-        public int Seasonid { get; set; }
+       public int? Seasonid { get; set; }
 
         [JsonProperty("currentseason")]
-        public int Currentseason { get; set; }
+       public int? Currentseason { get; set; }
 
         [JsonProperty("year")]
         public string Year { get; set; }
@@ -73,7 +73,7 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public bool Roundbyround { get; set; }
 
         [JsonProperty("tournamentlevelorder")]
-        public int Tournamentlevelorder { get; set; }
+       public int? Tournamentlevelorder { get; set; }
 
         [JsonProperty("tournamentlevelname")]
         public string Tournamentlevelname { get; set; }

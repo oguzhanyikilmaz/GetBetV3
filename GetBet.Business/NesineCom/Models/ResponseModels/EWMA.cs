@@ -5,10 +5,10 @@ namespace GetBet.Business.NesineCom.Models.ResponseModels
     public class EWMA
     {
         [JsonProperty("C")]
-        public int C { get; set; }
+       public int? C { get; set; }
 
         [JsonProperty("TYPE")]
-        public int TYPE { get; set; }
+       public int? TYPE { get; set; }
 
         [JsonProperty("D")]
         public string D { get; set; }
@@ -29,7 +29,7 @@ namespace GetBet.Business.NesineCom.Models.ResponseModels
         public string LN { get; set; }
 
         [JsonProperty("LO")]
-        public int LO { get; set; }
+       public int? LO { get; set; }
 
         [JsonProperty("ENO")]
         public string ENO { get; set; }

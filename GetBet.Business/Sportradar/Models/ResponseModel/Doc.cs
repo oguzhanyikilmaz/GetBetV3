@@ -8,10 +8,10 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public string Event { get; set; }
 
         [JsonProperty("_dob")]
-        public int Dob { get; set; }
+       public int? Dob { get; set; }
 
         [JsonProperty("_maxage")]
-        public int Maxage { get; set; }
+       public int? Maxage { get; set; }
 
         [JsonProperty("data")]
         public Data Data { get; set; }

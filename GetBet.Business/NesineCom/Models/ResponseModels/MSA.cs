@@ -5,28 +5,28 @@ namespace GetBet.Business.NesineCom.Models.ResponseModels
     public class MSA
     {
         [JsonProperty("ID")]
-        public int ID { get; set; }
+       public int? ID { get; set; }
 
         [JsonProperty("NO")]
-        public int NO { get; set; }
+       public int? NO { get; set; }
 
         [JsonProperty("MN")]
         public string MN { get; set; }
 
         [JsonProperty("MV")]
-        public int MV { get; set; }
+       public int? MV { get; set; }
 
         [JsonProperty("MT")]
-        public int MT { get; set; }
+       public int? MT { get; set; }
 
         [JsonProperty("MBS")]
-        public int MBS { get; set; }
+       public int? MBS { get; set; }
 
         [JsonProperty("SOV")]
         public double SOV { get; set; }
 
         [JsonProperty("MS")]
-        public int MS { get; set; }
+       public int? MS { get; set; }
 
         [JsonProperty("MSD")]
         public object MSD { get; set; }
@@ -47,6 +47,6 @@ namespace GetBet.Business.NesineCom.Models.ResponseModels
         public string IO { get; set; }
 
         [JsonProperty("VT")]
-        public int VT { get; set; }
+       public int? VT { get; set; }
     }
 }

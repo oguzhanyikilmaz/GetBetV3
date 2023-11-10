@@ -14,40 +14,40 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public string Doc { get; set; }
 
         [JsonProperty("_id")]
-        public int Id { get; set; }
+       public int? Id { get; set; }
 
         [JsonProperty("_sid")]
-        public int Sid { get; set; }
+       public int? Sid { get; set; }
 
         [JsonProperty("_seasonid")]
-        public int Seasonid { get; set; }
+       public int? Seasonid { get; set; }
 
         [JsonProperty("_rcid")]
-        public int Rcid { get; set; }
+       public int? Rcid { get; set; }
 
         [JsonProperty("_tid")]
-        public int Tid { get; set; }
+       public int? Tid { get; set; }
 
         [JsonProperty("_utid")]
-        public int Utid { get; set; }
+       public int? Utid { get; set; }
 
         [JsonProperty("_dt")]
         public Dt Dt { get; set; }
 
         [JsonProperty("round")]
-        public int Round { get; set; }
+       public int? Round { get; set; }
 
         [JsonProperty("roundname")]
         public Roundname Roundname { get; set; }
 
         [JsonProperty("cuproundmatchnumber")]
-        public int Cuproundmatchnumber { get; set; }
+       public int? Cuproundmatchnumber { get; set; }
 
         [JsonProperty("cuproundnumberofmatches")]
-        public int Cuproundnumberofmatches { get; set; }
+       public int? Cuproundnumberofmatches { get; set; }
 
         [JsonProperty("week")]
-        public int Week { get; set; }
+       public int? Week { get; set; }
 
         [JsonProperty("coverage")]
         public Coverage Coverage { get; set; }
@@ -59,16 +59,16 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public Periods Periods { get; set; }
 
         [JsonProperty("updated_uts")]
-        public int UpdatedUts { get; set; }
+       public int? UpdatedUts { get; set; }
 
         [JsonProperty("ended_uts")]
-        public int EndedUts { get; set; }
+       public int? EndedUts { get; set; }
 
         [JsonProperty("p")]
         public string P { get; set; }
 
         [JsonProperty("ptime")]
-        public int Ptime { get; set; }
+       public int? Ptime { get; set; }
 
         [JsonProperty("timeinfo")]
         public Timeinfo Timeinfo { get; set; }
@@ -86,13 +86,13 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public bool Facts { get; set; }
 
         [JsonProperty("stadiumid")]
-        public int Stadiumid { get; set; }
+       public int? Stadiumid { get; set; }
 
         [JsonProperty("localderby")]
         public bool Localderby { get; set; }
 
         [JsonProperty("distance")]
-        public int Distance { get; set; }
+       public int? Distance { get; set; }
 
         [JsonProperty("weather")]
         public object Weather { get; set; }
@@ -107,7 +107,7 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public object Wind { get; set; }
 
         [JsonProperty("windadvantage")]
-        public int Windadvantage { get; set; }
+       public int? Windadvantage { get; set; }
 
         [JsonProperty("matchstatus")]
         public string Matchstatus { get; set; }
@@ -125,13 +125,13 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public double Hf { get; set; }
 
         [JsonProperty("periodlength")]
-        public int Periodlength { get; set; }
+       public int? Periodlength { get; set; }
 
         [JsonProperty("numberofperiods")]
-        public int Numberofperiods { get; set; }
+       public int? Numberofperiods { get; set; }
 
         [JsonProperty("overtimelength")]
-        public int Overtimelength { get; set; }
+       public int? Overtimelength { get; set; }
 
         [JsonProperty("tobeannounced")]
         public bool Tobeannounced { get; set; }

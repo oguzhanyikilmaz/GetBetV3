@@ -10,16 +10,16 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
     public class Coverage
     {
         [JsonProperty("lineup")]
-        public int Lineup { get; set; }
+       public int? Lineup { get; set; }
 
         [JsonProperty("formations")]
-        public int Formations { get; set; }
+       public int? Formations { get; set; }
 
         [JsonProperty("livetable")]
-        public int Livetable { get; set; }
+       public int? Livetable { get; set; }
 
         [JsonProperty("injuries")]
-        public int Injuries { get; set; }
+       public int? Injuries { get; set; }
 
         [JsonProperty("ballspotting")]
         public bool Ballspotting { get; set; }
@@ -31,10 +31,10 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public bool Multicast { get; set; }
 
         [JsonProperty("scoutmatch")]
-        public int Scoutmatch { get; set; }
+       public int? Scoutmatch { get; set; }
 
         [JsonProperty("scoutcoveragestatus")]
-        public int Scoutcoveragestatus { get; set; }
+       public int? Scoutcoveragestatus { get; set; }
 
         [JsonProperty("scoutconnected")]
         public bool Scoutconnected { get; set; }
@@ -67,13 +67,13 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public object Paperscorecard { get; set; }
 
         [JsonProperty("penaltyshootout")]
-        public int Penaltyshootout { get; set; }
+       public int? Penaltyshootout { get; set; }
 
         [JsonProperty("scouttest")]
         public bool Scouttest { get; set; }
 
         [JsonProperty("lmtsupport")]
-        public int Lmtsupport { get; set; }
+       public int? Lmtsupport { get; set; }
 
         [JsonProperty("venue")]
         public bool Venue { get; set; }

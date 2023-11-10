@@ -8,7 +8,7 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public string Doc { get; set; }
 
         [JsonProperty("_id")]
-        public int Id { get; set; }
+       public int? Id { get; set; }
 
         [JsonProperty("displaynumber")]
         public object Displaynumber { get; set; }
@@ -23,6 +23,6 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public object Cuproundnumber { get; set; }
 
         [JsonProperty("statisticssortorder")]
-        public int Statisticssortorder { get; set; }
+       public int? Statisticssortorder { get; set; }
     }
 }

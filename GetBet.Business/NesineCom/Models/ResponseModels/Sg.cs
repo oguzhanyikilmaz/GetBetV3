@@ -5,19 +5,19 @@ namespace GetBet.Business.NesineCom.Models.ResponseModels
     public class Sg
     {
         [JsonProperty("eventVersion")]
-        public int eventVersion { get; set; }
+       public int? eventVersion { get; set; }
 
         [JsonProperty("marketVersion")]
-        public int marketVersion { get; set; }
+       public int? marketVersion { get; set; }
 
         [JsonProperty("oddVersion")]
-        public int oddVersion { get; set; }
+       public int? oddVersion { get; set; }
 
         [JsonProperty("drawNo")]
-        public int drawNo { get; set; }
+       public int? drawNo { get; set; }
 
         [JsonProperty("FB")]
-        public int FB { get; set; }
+       public int? FB { get; set; }
 
         [JsonProperty("EA")]
         public List<EA> EA { get; set; }

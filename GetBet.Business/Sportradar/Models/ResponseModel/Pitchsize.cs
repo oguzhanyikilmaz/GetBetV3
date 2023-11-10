@@ -10,9 +10,9 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
     public class Pitchsize
     {
         [JsonProperty("x")]
-        public int X { get; set; }
+       public int? X { get; set; }
 
         [JsonProperty("y")]
-        public int Y { get; set; }
+       public int? Y { get; set; }
     }
 }

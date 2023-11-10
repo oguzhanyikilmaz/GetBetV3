@@ -8,13 +8,13 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public string Doc { get; set; }
 
         [JsonProperty("_id")]
-        public int Id { get; set; }
+       public int? Id { get; set; }
 
         [JsonProperty("_sid")]
-        public int Sid { get; set; }
+       public int? Sid { get; set; }
 
         [JsonProperty("_rcid")]
-        public int Rcid { get; set; }
+       public int? Rcid { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }

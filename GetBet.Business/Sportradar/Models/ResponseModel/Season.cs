@@ -11,10 +11,10 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public string Doc { get; set; }
 
         [JsonProperty("_utid")]
-        public int Utid { get; set; }
+       public int? Utid { get; set; }
 
         [JsonProperty("_sid")]
-        public int Sid { get; set; }
+       public int? Sid { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -35,7 +35,7 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public bool Friendly { get; set; }
 
         [JsonProperty("currentseasonid")]
-        public int Currentseasonid { get; set; }
+       public int? Currentseasonid { get; set; }
 
         [JsonProperty("year")]
         public string Year { get; set; }

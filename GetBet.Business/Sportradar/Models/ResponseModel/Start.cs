@@ -17,9 +17,9 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public string Tz { get; set; }
 
         [JsonProperty("tzoffset")]
-        public int Tzoffset { get; set; }
+       public int? Tzoffset { get; set; }
 
         [JsonProperty("uts")]
-        public int Uts { get; set; }
+       public int? Uts { get; set; }
     }
 }

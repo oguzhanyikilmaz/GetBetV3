@@ -8,7 +8,7 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public string Doc { get; set; }
 
         [JsonProperty("_id")]
-        public int Id { get; set; }
+       public int? Id { get; set; }
 
         [JsonProperty("a2")]
         public string A2 { get; set; }
@@ -23,12 +23,12 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public string Ioc { get; set; }
 
         [JsonProperty("continentid")]
-        public int Continentid { get; set; }
+       public int? Continentid { get; set; }
 
         [JsonProperty("continent")]
         public string Continent { get; set; }
 
         [JsonProperty("population")]
-        public int Population { get; set; }
+       public int? Population { get; set; }
     }
 }

@@ -68,14 +68,14 @@ namespace GetBet.Business.PlayModelBusiness
         /// </summary>
         public void GetMatchResultsAndSaveDB()
         {
-            var playModels = _unitOfWork.Plays.FilterBy(x=>x.DateTime<DateTime.Now);
+            var playModels = _unitOfWork.Plays.FilterBy(x=>x.DateTime<DateTime.Now && x.DateTime>DateTime.Now.AddDays(-5));
 
             foreach (var playModel in playModels.Result)
             {
                 var result = SportradarManager.GetMatchResult(playModel.MatchId).Result;
 
-                playModel.ScoreTeam1 = result.Doc.First().Data.Match.Result.Home;
-                playModel.ScoreTeam2 = result.Doc.First().Data.Match.Result.Away;
+                playModel.ScoreTeam1 = result.Doc.First().Data.Match.Result.Home.Value;
+                playModel.ScoreTeam2 = result.Doc.First().Data.Match.Result.Away.Value;
 
                 if (playModel.ScoreTeam1 > 0 && playModel.ScoreTeam2 > 0)
                     playModel.HasMutualScoring = true;

@@ -8,13 +8,13 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public string Doc { get; set; }
 
         [JsonProperty("_id")]
-        public int Id { get; set; }
+       public int? Id { get; set; }
 
         [JsonProperty("_sid")]
-        public int Sid { get; set; }
+       public int? Sid { get; set; }
 
         [JsonProperty("uid")]
-        public int Uid { get; set; }
+       public int? Uid { get; set; }
 
         [JsonProperty("virtual")]
         public bool Virtual { get; set; }
@@ -38,16 +38,16 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public bool Haslogo { get; set; }
 
         [JsonProperty("homerealcategoryid")]
-        public int Homerealcategoryid { get; set; }
+       public int? Homerealcategoryid { get; set; }
 
         [JsonProperty("countrycode")]
         public Countrycode Countrycode { get; set; }
 
         [JsonProperty("yellow_count")]
-        public int YellowCount { get; set; }
+       public int? YellowCount { get; set; }
 
         [JsonProperty("red_count")]
-        public int RedCount { get; set; }
+       public int? RedCount { get; set; }
 
         [JsonProperty("birthdate")]
         public Birthdate Birthdate { get; set; }
