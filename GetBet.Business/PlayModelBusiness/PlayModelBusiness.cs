@@ -6,6 +6,7 @@ using GetBet.Core.Helpers;
 using GetBet.Core.Repository.Abstract;
 using GetBet.Core.Repository.Concrete;
 using GetBet.Core.Settings;
+using GetBet.Entities.Concrete;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
@@ -85,6 +86,19 @@ namespace GetBet.Business.PlayModelBusiness
 
                 _unitOfWork.Plays.ReplaceOne(playModel,playModel.Id.ToString());
             }
+        }
+
+        /// <summary>
+        /// Karşılıklı gol veya 2 gol üstü biten maçları çeker.
+        /// </summary>
+        /// <returns></returns>
+        public List<Play> GetWinnerPlays()
+        {
+            List<Play> winnPlays = new List<Play>();
+
+            winnPlays = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now && (x.TwoUpGoals || x.HasMutualScoring)).Result.ToList();
+
+            return winnPlays;
         }
     }
 }

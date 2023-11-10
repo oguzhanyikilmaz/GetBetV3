@@ -61,7 +61,7 @@ namespace GetBet.Business.MatchBusiness
         /// <param name="isAdded"></param>
         /// <param name="playModel"></param>
         /// <returns></returns>
-        private static bool MatchWithLotsOfGoalsCalculation(EA? match, bool isAdded, Play playModel)
+        private  bool MatchWithLotsOfGoalsCalculation(EA? match, bool isAdded, Play playModel)
         {
             var oran1 = match.MA.FirstOrDefault(x => x.MTID == 43)?.OCA.FirstOrDefault(z => z.N == 4)?.O;
             var oran2 = match.MA.FirstOrDefault(x => x.MTID == 205)?.OCA.FirstOrDefault(z => z.N == 29)?.O;
@@ -86,7 +86,7 @@ namespace GetBet.Business.MatchBusiness
         /// <param name="isAdded"></param>
         /// <param name="playModel"></param>
         /// <param name="fark"></param>
-        private static void MutualScoringMatchCalculation(ref bool isAdded, Play playModel, ref double fark)
+        private  void MutualScoringMatchCalculation(ref bool isAdded, Play playModel, ref double fark)
         {
             if (playModel.ZeroAndOneGoal != null && playModel.FourFiveGoal != null)
                 fark = playModel.ZeroAndOneGoal.Value - playModel.FourFiveGoal.Value;
@@ -105,5 +105,6 @@ namespace GetBet.Business.MatchBusiness
                 }
             }
         }
+
     }
 }
