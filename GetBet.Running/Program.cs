@@ -32,6 +32,8 @@ class Application
 
         PlayModelBusiness playModelBusiness = new PlayModelBusiness(mongoSettings);
 
+        playModelBusiness.GetPlayStats();
+
         playModelBusiness.AddDBAndSendMailPlayModel();
 
         playModelBusiness.GetMatchResultsAndSaveDB();

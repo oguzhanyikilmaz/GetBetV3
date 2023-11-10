@@ -1,4 +1,5 @@
 ﻿using GetBet.Business.MatchBusiness;
+using GetBet.Business.Models;
 using GetBet.Business.NesineCom;
 using GetBet.Business.NesineCom.Models.ResponseModels;
 using GetBet.Business.Sportradar;
@@ -99,6 +100,25 @@ namespace GetBet.Business.PlayModelBusiness
             winnPlays = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now && (x.TwoUpGoals || x.HasMutualScoring)).Result.ToList();
 
             return winnPlays;
+        }
+
+        /// <summary>
+        /// Karşılıklı gol veya 2 gol üstü biten maçları ve tutmayan maçların sayılarını çeker.
+        /// </summary>
+        /// <returns></returns>
+        public StatsModel GetPlayStats()
+        {
+            StatsModel statsModel = new StatsModel();
+
+            statsModel.TotalPlay = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now).Result.Count();
+
+            statsModel.HasMutualScoringPlay = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now && x.HasMutualScoring).Result.Count();
+
+            statsModel.TwoUpGoalsPlay = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now && x.TwoUpGoals).Result.Count();
+
+            statsModel.LosePlay = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now && !x.TwoUpGoals && !x.HasMutualScoring).Result.Count();
+
+            return statsModel;
         }
     }
 }
