@@ -76,6 +76,11 @@ namespace GetBet.Business.PlayModelBusiness
             {
                 var result = SportradarManager.GetMatchResult(playModel.MatchId).Result;
 
+                var matchResult = result.Doc.First().Data.Match.Result;
+
+                if (matchResult==null || matchResult.Home==null || matchResult.Away==null) 
+                    continue;
+
                 playModel.ScoreTeam1 = result.Doc.First().Data.Match.Result.Home.Value;
                 playModel.ScoreTeam2 = result.Doc.First().Data.Match.Result.Away.Value;
 
@@ -117,6 +122,13 @@ namespace GetBet.Business.PlayModelBusiness
             statsModel.TwoUpGoalsPlay = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now && x.TwoUpGoals).Result.Count();
 
             statsModel.LosePlay = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now && !x.TwoUpGoals && !x.HasMutualScoring).Result.Count();
+
+
+            //string jsonstatsModels = JsonConvert.SerializeObject(statsModel);
+
+            //DataTable dt = (DataTable)JsonConvert.DeserializeObject(jsonstatsModels, (typeof(DataTable)));
+
+            //MailHelper.SendMail(CHelper.MailToAdresses(), "Oynanan maçların istatistikleri", CHelper.ConvertDataTableToHTML(dt));
 
             return statsModel;
         }
