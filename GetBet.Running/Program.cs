@@ -32,7 +32,7 @@ class Application
 
         PlayModelBusiness playModelBusiness = new PlayModelBusiness(mongoSettings);
 
-        playModelBusiness.GetPlayStats();
+        playModelBusiness.GetAndAddPlayStats();
 
         playModelBusiness.AddDBAndSendMailPlayModel();
 

@@ -111,7 +111,7 @@ namespace GetBet.Business.PlayModelBusiness
         /// Karşılıklı gol veya 2 gol üstü biten maçları ve tutmayan maçların sayılarını çeker.
         /// </summary>
         /// <returns></returns>
-        public StatsModel GetPlayStats()
+        public StatsModel GetAndAddPlayStats()
         {
             StatsModel statsModel = new StatsModel();
 
@@ -123,12 +123,17 @@ namespace GetBet.Business.PlayModelBusiness
 
             statsModel.LosePlay = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now && !x.TwoUpGoals && !x.HasMutualScoring).Result.Count();
 
+            string jsonstatsModels = JsonConvert.SerializeObject(statsModel);
 
-            //string jsonstatsModels = JsonConvert.SerializeObject(statsModel);
+            var stats = JsonConvert.DeserializeObject<Stats>(jsonstatsModels);
 
-            //DataTable dt = (DataTable)JsonConvert.DeserializeObject(jsonstatsModels, (typeof(DataTable)));
+            stats.CreateDate = DateTime.Now;
 
-            //MailHelper.SendMail(CHelper.MailToAdresses(), "Oynanan maçların istatistikleri", CHelper.ConvertDataTableToHTML(dt));
+            int successMatch = stats.TotalPlay - stats.LosePlay;
+
+            stats.SuccessRatio = (double)successMatch / stats.TotalPlay * 100;
+
+            _unitOfWork.Stats.InsertOne(stats);
 
             return statsModel;
         }

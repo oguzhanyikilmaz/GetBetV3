@@ -11,12 +11,14 @@ namespace GetBet.Core.Repository.Concrete
     {
         private readonly MongoDbContext _context;
         public IRepository<Play> Plays { get; private set; }
+        public IRepository<Stats> Stats { get; private set; }
 
         public UnitOfWork(MongoSettings settings)
         {
             _context = new MongoDbContext(settings);
 
             Plays = new MongoRepositoryBase<Play>(_context);
+            Stats = new MongoRepositoryBase<Stats>(_context);
 
         }
 

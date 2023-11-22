@@ -11,6 +11,7 @@ namespace GetBet.Core.Repository.Abstract
     public interface IUnitOfWork
     {
         IRepository<Play> Plays { get; }
+        IRepository<Stats> Stats { get; }
 
     }
 }
