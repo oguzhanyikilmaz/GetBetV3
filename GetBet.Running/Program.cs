@@ -16,14 +16,15 @@ static IHostBuilder CreateHostBuilder(string[] args)
         .ConfigureServices(
             (_, services) => services
             .AddSingleton<IUnitOfWork, UnitOfWork>()
-            .AddSingleton<Application, Application>());
+            .AddSingleton(x => new Application(args)));
+
 }
 
 class Application
 {
     IConfiguration configuration;
 
-    public Application()
+    public Application(string[] args)
     {
         MongoSettings mongoSettings = new MongoSettings();
 
@@ -32,11 +33,21 @@ class Application
 
         PlayModelBusiness playModelBusiness = new PlayModelBusiness(mongoSettings);
 
-        playModelBusiness.GetAndAddPlayStats();
+        foreach (string arg in args)
+        {
+            switch (arg)
+            {
+                case "-Start":
+                    playModelBusiness.GetAndAddPlayStats();
+                    playModelBusiness.AddDBAndSendMailPlayModel();
+                    playModelBusiness.GetMatchResultsAndSaveDB();
+                    break;
 
-        playModelBusiness.AddDBAndSendMailPlayModel();
-
-        playModelBusiness.GetMatchResultsAndSaveDB();
+                default:
+                    Console.WriteLine("Geçersiz parametre girildi.");
+                    break;
+            }
+        }
 
     }
 }

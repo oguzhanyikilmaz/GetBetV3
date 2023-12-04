@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GetBet.Running": {
+      "commandName": "Project",
+      "commandLineArgs": "-Start"
+    }
+  }
+}
