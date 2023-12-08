@@ -115,13 +115,15 @@ namespace GetBet.Business.PlayModelBusiness
         {
             StatsModel statsModel = new StatsModel();
 
-            statsModel.TotalPlay = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now).Result.Count();
+            var finishedMatches = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now.AddHours(3)).Result.ToList();
 
-            statsModel.HasMutualScoringPlay = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now && x.HasMutualScoring).Result.Count();
+            statsModel.TotalPlay = finishedMatches.Count();
 
-            statsModel.TwoUpGoalsPlay = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now && x.TwoUpGoals).Result.Count();
+            statsModel.HasMutualScoringPlay = finishedMatches.Where(x => x.HasMutualScoring).Count();
 
-            statsModel.LosePlay = _unitOfWork.Plays.FilterBy(x => x.DateTime.AddHours(3) < DateTime.Now && !x.TwoUpGoals && !x.HasMutualScoring).Result.Count();
+            statsModel.TwoUpGoalsPlay = finishedMatches.Where(x =>x.TwoUpGoals).Count();
+
+            statsModel.LosePlay = finishedMatches.Where(x =>  !x.TwoUpGoals && !x.HasMutualScoring).Count();
 
             string jsonstatsModels = JsonConvert.SerializeObject(statsModel);
 
