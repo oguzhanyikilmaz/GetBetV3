@@ -127,7 +127,7 @@ namespace GetBet.Business.PlayModelBusiness
 
             var stats = JsonConvert.DeserializeObject<Stats>(jsonstatsModels);
 
-            stats.CreateDate = DateTime.Now;
+            stats.CreateDate = DateTime.Now.AddHours(3);
 
             int successMatch = stats.TotalPlay - stats.LosePlay;
 
