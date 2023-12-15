@@ -61,8 +61,11 @@ namespace GetBet.Business.PlayModelBusiness
                 DataTable dt = (DataTable)JsonConvert.DeserializeObject(jsonPlayModels, (typeof(DataTable)));
 
                 MailHelper.SendMail(CHelper.MailToAdresses(), "Oynanabilecek Maçlar", CHelper.ConvertDataTableToHTML(dt));
+
+                Console.WriteLine($"Maçlar kaydedildi ve mail atıldı.");
+
             }
-           
+
         }
 
         /// <summary>
@@ -92,6 +95,9 @@ namespace GetBet.Business.PlayModelBusiness
 
                 _unitOfWork.Plays.ReplaceOne(playModel,playModel.Id.ToString());
             }
+
+            Console.WriteLine($"Maç sonuçları çekildi ve kaydedildi.");
+
         }
 
         /// <summary>
@@ -136,6 +142,9 @@ namespace GetBet.Business.PlayModelBusiness
             stats.SuccessRatio = (double)successMatch / stats.TotalPlay * 100;
 
             _unitOfWork.Stats.InsertOne(stats);
+
+            Console.WriteLine($"İstatistikler hesaplandı ve eklendi.");
+
 
             return statsModel;
         }

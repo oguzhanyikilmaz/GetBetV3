@@ -6,18 +6,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+
 var host = CreateHostBuilder(args).Build();
 
 Application app = host.Services.GetRequiredService<Application>();
 
 static IHostBuilder CreateHostBuilder(string[] args)
 {
-    return Host.CreateDefaultBuilder(args)
-        .ConfigureServices(
-            (_, services) => services
-            .AddSingleton<IUnitOfWork, UnitOfWork>()
-            .AddSingleton(x => new Application(args)));
-
+        return Host.CreateDefaultBuilder(args)
+      .ConfigureServices(
+          (_, services) => services
+          .AddSingleton<IUnitOfWork, UnitOfWork>()
+          .AddSingleton(x => new Application(args)));
 }
 
 class Application
@@ -38,9 +38,11 @@ class Application
             switch (arg)
             {
                 case "-Start":
+                    Console.WriteLine($"Uygulama başladı.");
                     playModelBusiness.GetAndAddPlayStats();
                     playModelBusiness.AddDBAndSendMailPlayModel();
                     playModelBusiness.GetMatchResultsAndSaveDB();
+                    Console.WriteLine($"Uygulama bitti.");
                     break;
 
                 default:
