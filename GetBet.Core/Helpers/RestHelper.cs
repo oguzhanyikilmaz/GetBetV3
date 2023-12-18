@@ -20,6 +20,7 @@ namespace GetBet.Core.Helpers
             var request = new RestRequest(query, method);
             request.AddHeader("Accept", "application/json");
             request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("User-Agent", CHelper.GetRandomUserAgent());
             //request.AddHeader("Authorization", $"Bearer {GetAuthToken()}");
 
             string json = JsonConvert.SerializeObject(model);
@@ -34,7 +35,7 @@ namespace GetBet.Core.Helpers
 
             var response = client.Execute(request);
 
-            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.ServiceUnavailable || response.StatusCode == HttpStatusCode.InternalServerError || response.StatusCode.ToString() == "0")
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.ServiceUnavailable || response.StatusCode == HttpStatusCode.InternalServerError || response.StatusCode.ToString() == "0" || response.StatusCode == HttpStatusCode.Forbidden)
             {
                 //GetAuthToken();
                 Execute<T>(query, method, model, errorMethod);
