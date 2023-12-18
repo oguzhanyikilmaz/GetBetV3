@@ -148,5 +148,20 @@ namespace GetBet.Business.PlayModelBusiness
 
             return statsModel;
         }
+
+        public void Test()
+        {
+            var list = CHelper.GetRandomUserAgent();
+
+            foreach (var item in list)
+            {
+                UserAgent userAgent = new UserAgent();
+
+                userAgent.UserAgentValue = item;
+
+                _unitOfWork.UserAgent.InsertOne(userAgent);
+            }
+
+        }
     }
 }

@@ -13,12 +13,15 @@ namespace GetBet.Core.Repository.Concrete
         public IRepository<Play> Plays { get; private set; }
         public IRepository<Stats> Stats { get; private set; }
 
+        public IRepository<UserAgent> UserAgent { get; private set; }
+
         public UnitOfWork(MongoSettings settings)
         {
             _context = new MongoDbContext(settings);
 
             Plays = new MongoRepositoryBase<Play>(_context);
             Stats = new MongoRepositoryBase<Stats>(_context);
+            UserAgent = new MongoRepositoryBase<UserAgent>(_context);
 
         }
 
