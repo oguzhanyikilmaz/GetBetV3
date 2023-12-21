@@ -32,7 +32,7 @@ namespace GetBet.Core.Helpers
             mail.IsBodyHtml = true;
             mail.Priority = MailPriority.High;
             SmtpClient client = new SmtpClient();
-            client.Credentials = new System.Net.NetworkCredential("oguzhanyklmz27@gmail.com", "dxyx xvqp lwts cvgx");//dxyx xvqp lwts cvgx-ienrmlcfghxujkdq
+            client.Credentials = new System.Net.NetworkCredential("oguzhanyklmz27@gmail.com", "suph hbdc rpqa ldjd");//dxyx xvqp lwts cvgx-ienrmlcfghxujkdq
             client.Port = 587;
             client.Host = "smtp.gmail.com";
             client.EnableSsl = true;
