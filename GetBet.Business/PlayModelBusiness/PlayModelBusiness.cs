@@ -52,7 +52,13 @@ namespace GetBet.Business.PlayModelBusiness
                     var dbModel = _unitOfWork.Plays.FilterBy(x => x.MatchId == playModel.MatchId);
 
                     if (dbModel.Result==null || dbModel.Result.Count()==0)
-                        _unitOfWork.Plays.InsertMany(playModels);
+                    {
+                        playModel.ScoreTeam1 = null;
+                        playModel.ScoreTeam2 = null;
+                        
+                        _unitOfWork.Plays.InsertOne(playModel);
+
+                    }
 
                 }
 
