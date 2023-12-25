@@ -13,11 +13,11 @@ Application app = host.Services.GetRequiredService<Application>();
 
 static IHostBuilder CreateHostBuilder(string[] args)
 {
-        return Host.CreateDefaultBuilder(args)
-      .ConfigureServices(
-          (_, services) => services
-          .AddSingleton<IUnitOfWork, UnitOfWork>()
-          .AddSingleton(x => new Application(args)));
+    return Host.CreateDefaultBuilder(args)
+  .ConfigureServices(
+      (_, services) => services
+      .AddSingleton<IUnitOfWork, UnitOfWork>()
+      .AddSingleton(x => new Application(args)));
 }
 
 class Application
@@ -39,9 +39,9 @@ class Application
             {
                 case "-Start":
                     Console.WriteLine($"Uygulama başladı.");
+                    playModelBusiness.GetMatchResultsAndSaveDB();
                     playModelBusiness.GetAndAddPlayStats();
                     playModelBusiness.AddDBAndSendMailPlayModel();
-                    playModelBusiness.GetMatchResultsAndSaveDB();
                     Console.WriteLine($"Uygulama bitti.");
                     break;
 
