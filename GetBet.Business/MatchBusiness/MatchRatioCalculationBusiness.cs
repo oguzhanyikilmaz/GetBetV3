@@ -36,7 +36,11 @@ namespace GetBet.Business.MatchBusiness
                 playModel.DateTime = Convert.ToDateTime($"{match.D} {match.T}");
                 playModel.HasMutualScoring = false;
                 playModel.TwoUpGoals = false;
-
+                playModel.HomeUp05 = match.MA.FirstOrDefault(x => x.MTID == 212)?.OCA.FirstOrDefault(z => z.N == 2)?.O;
+                playModel.AwayUp05 = match.MA.FirstOrDefault(x => x.MTID == 256)?.OCA.FirstOrDefault(z => z.N == 2)?.O;
+                playModel.Up15Ratio = match.MA.FirstOrDefault(x => x.MTID == 11)?.OCA.FirstOrDefault(z => z.N == 2)?.O;
+                playModel.Up25Ratio = match.MA.FirstOrDefault(x => x.MTID == 12)?.OCA.FirstOrDefault(z => z.N == 2)?.O;
+                playModel.KgRatio = match.MA.FirstOrDefault(x => x.MTID == 38)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
 
                 double fark = 5;
 
@@ -61,7 +65,7 @@ namespace GetBet.Business.MatchBusiness
         /// <param name="isAdded"></param>
         /// <param name="playModel"></param>
         /// <returns></returns>
-        private  bool MatchWithLotsOfGoalsCalculation(EA? match, bool isAdded, Play playModel)
+        private bool MatchWithLotsOfGoalsCalculation(EA? match, bool isAdded, Play playModel)
         {
             var oran1 = match.MA.FirstOrDefault(x => x.MTID == 43)?.OCA.FirstOrDefault(z => z.N == 4)?.O;
             var oran2 = match.MA.FirstOrDefault(x => x.MTID == 205)?.OCA.FirstOrDefault(z => z.N == 29)?.O;
@@ -86,7 +90,7 @@ namespace GetBet.Business.MatchBusiness
         /// <param name="isAdded"></param>
         /// <param name="playModel"></param>
         /// <param name="fark"></param>
-        private  void MutualScoringMatchCalculation(ref bool isAdded, Play playModel, ref double fark)
+        private void MutualScoringMatchCalculation(ref bool isAdded, Play playModel, ref double fark)
         {
             if (playModel.ZeroAndOneGoal != null && playModel.FourFiveGoal != null)
                 fark = playModel.ZeroAndOneGoal.Value - playModel.FourFiveGoal.Value;
@@ -104,6 +108,11 @@ namespace GetBet.Business.MatchBusiness
                     isAdded = true;
                 }
             }
+
+            if (msFark <= 0.15 && msFark >= -0.25 && (playModel.HomeUp05 == null || playModel.HomeUp05 <= 1.20) && (playModel.AwayUp05 == null || playModel.AwayUp05 <= 1.20))
+                isAdded = true;
+
+
         }
 
     }

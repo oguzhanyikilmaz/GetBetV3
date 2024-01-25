@@ -16,6 +16,11 @@
         public double? Score01 { get; set; }
         public int? ScoreTeam1 { get; set; }
         public int? ScoreTeam2 { get; set; }
+        public double? HomeUp05 { get; set; }
+        public double? AwayUp05 { get; set; }
+        public double? KgRatio { get; set; }
+        public double? Up15Ratio { get; set; }
+        public double? Up25Ratio { get; set; }
 
         public bool HasMutualScoring { get; set; }
         public bool TwoUpGoals { get; set; }
