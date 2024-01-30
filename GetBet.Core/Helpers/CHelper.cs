@@ -46,7 +46,9 @@ namespace GetBet.Core.Helpers
             adresses.Add("tmkemaldikici@hotmail.com");
             adresses.Add("mahmutakpinarmkn@outlook.com");
             adresses.Add("oguzhanyklmz27@gmail.com");
-            adresses.Add("alicanoztuvan@icloud.com");
+            adresses.Add("alicanoztuvan@icloud.com");//g.saray_mesut@hotmail.com
+            adresses.Add("g.saray_mesut@hotmail.com");
+
 
             return adresses;
         }
