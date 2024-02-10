@@ -1,10 +1,17 @@
-﻿using GetBet.Business.NesineCom.Models.ResponseModels;
+﻿using GetBet.Business.NesineCom;
+using GetBet.Business.NesineCom.Models.ResponseModels;
 using GetBet.Entities.Concrete;
+using System;
 
 namespace GetBet.Business.MatchBusiness
 {
     public class MatchRatioCalculationBusiness
     {
+        public NesineComManager NesineComManager { get; set; }
+        public MatchRatioCalculationBusiness()
+        {
+            NesineComManager = new NesineComManager();
+        }
         /// <summary>
         /// Bültenden gelen response içinde KG var oynanabilicek maçları hesaplar.
         /// </summary>
@@ -57,6 +64,45 @@ namespace GetBet.Business.MatchBusiness
 
             return playModels;
         }
+
+        /// <summary>
+        /// Bültenden gelen response içinde IY0 oynanabilicek maçları hesaplar.
+        /// </summary>
+        /// <param name="bulletinResponseModel"></param>
+        /// <returns></returns>
+        public List<Play> FirstHalfDrawMatchs(BulletinResponseModel bulletinResponseModel)
+        {
+            List<Play> playModels = new List<Play>();
+
+            var firstHalfDrawMatchs = bulletinResponseModel.sg.EA.Where(x => x.TYPE >= 1 && x.MA.Any(z => z.MTID == 1)).ToList();
+
+            foreach (var match in firstHalfDrawMatchs)
+            {
+                bool isAdded = false;
+
+                Play playModel = new Play();
+
+                playModel.MatchId = match.BRID.ToString();
+                playModel.Team1 = match.HN;
+                playModel.Team2 = match.AN;
+                playModel.ZeroAndOneGoal = match.MA.FirstOrDefault(x => x.MTID == 43)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
+                playModel.FourFiveGoal = match.MA.FirstOrDefault(x => x.MTID == 43)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
+                playModel.MS1 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
+                playModel.MS2 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
+                playModel.IsIY0MS12 = true;
+
+                var matchCompetitionHistory = NesineComManager.GetMatchCompetitionHistory(playModel.MatchId, true).Result;
+
+                isAdded = FirstHalfDrawMatchsCalculation(playModel, matchCompetitionHistory);
+
+                if (isAdded)
+                    playModels.Add(playModel);
+
+            }
+
+            return playModels;
+        }
+
 
         /// <summary>
         /// Bol gollü geçecek olan maçları hesaplar.
@@ -114,6 +160,48 @@ namespace GetBet.Business.MatchBusiness
 
 
         }
+
+        /// <summary>
+        /// Maçın historysine dayanarak son maçlarda ilk yarısı ne kadar  berabere bitmiş onu hesaplar ve toplam maça göre beraberlik oranı yüksekse true döner.
+        /// </summary>
+        /// <param name="playModel"></param>
+        /// <param name="matchCompetitionHistory"></param>
+        /// <returns></returns>
+        private bool FirstHalfDrawMatchsCalculation(Play playModel, MatchCompetitionHistory matchCompetitionHistory)
+        {
+            bool retVal = false;
+
+            if ((playModel.MS1 > 1.35 && playModel.MS1 < 1.65) || (playModel.MS2 > 1.35 && playModel.MS2 < 1.65))
+            {
+                try
+                {
+                    if (matchCompetitionHistory.D!=null)
+                    {
+                        var ml = matchCompetitionHistory.D.ML.FirstOrDefault(x => x.TFT == 1);
+
+                        var tt1 = ml.TT.FirstOrDefault(x => x.FT == 1);
+
+                        var tmsFirst = tt1.TMS.First().TA.FirstOrDefault(x => x.AT == 2);
+
+                        var totalFirstHalfResult = tmsFirst.AC + tmsFirst.HC + tmsFirst.DC;
+
+                        var sonuc = (Convert.ToDouble(tmsFirst.DC) / totalFirstHalfResult) * 100;
+
+                        if (sonuc > 60)
+                            retVal = true;
+                    }
+                    
+                }
+                catch (Exception)
+                {
+                    retVal = false;
+                }
+
+            }
+
+            return retVal;
+        }
+
 
     }
 }

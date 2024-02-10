@@ -6,7 +6,7 @@ namespace GetBet.Business.NesineCom
 {
     public class NesineComManager
     {
-        readonly RestHelper _restHelper;
+        private RestHelper _restHelper;
 
         public NesineComManager()
         {
@@ -16,6 +16,15 @@ namespace GetBet.Business.NesineCom
         public async Task<BulletinResponseModel> GetPreBulletinFull()
         {
             var response = _restHelper.Execute<BulletinResponseModel>($"bulten/getprebultenfull", Method.Get, null, "GetPreBulletinFull");
+
+            return response;
+        }
+
+        public async Task<MatchCompetitionHistory> GetMatchCompetitionHistory(string matchId, bool isApiStats)
+        {
+            _restHelper = new RestHelper("https://apistats.nesine.com/api/");
+
+            var response = _restHelper.Execute<MatchCompetitionHistory>($"v3/HeadToHead/{matchId}/CompetitionHistory", Method.Get, null, "GetMatchCompetitionHistory");
 
             return response;
         }

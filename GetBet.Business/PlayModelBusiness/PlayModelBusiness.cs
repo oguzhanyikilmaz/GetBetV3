@@ -45,17 +45,19 @@ namespace GetBet.Business.PlayModelBusiness
 
             var playModels = MatchRatioCalculationBusiness.MutualScoringMatch(bulletinResponseModel);
 
-            if (playModels.Count()>0 && playModels!=null)
+            playModels.AddRange(MatchRatioCalculationBusiness.FirstHalfDrawMatchs(bulletinResponseModel));
+
+            if (playModels.Count() > 0 && playModels != null)
             {
                 foreach (var playModel in playModels)
                 {
                     var dbModel = _unitOfWork.Plays.FilterBy(x => x.MatchId == playModel.MatchId);
 
-                    if (dbModel.Result==null || dbModel.Result.Count()==0)
+                    if (dbModel.Result == null || dbModel.Result.Count() == 0)
                     {
                         playModel.ScoreTeam1 = null;
                         playModel.ScoreTeam2 = null;
-                        
+
                         _unitOfWork.Plays.InsertOne(playModel);
 
                     }
@@ -79,7 +81,7 @@ namespace GetBet.Business.PlayModelBusiness
         /// </summary>
         public void GetMatchResultsAndSaveDB()
         {
-            var playModels = _unitOfWork.Plays.FilterBy(x=>x.DateTime<DateTime.Now && x.DateTime>DateTime.Now.AddDays(-5));
+            var playModels = _unitOfWork.Plays.FilterBy(x => x.DateTime < DateTime.Now && x.DateTime > DateTime.Now.AddDays(-5));
 
             foreach (var playModel in playModels.Result)
             {
@@ -87,7 +89,7 @@ namespace GetBet.Business.PlayModelBusiness
 
                 var matchResult = result.Doc.First().Data.Match.Result;
 
-                if (matchResult==null || matchResult.Home==null || matchResult.Away==null) 
+                if (matchResult == null || matchResult.Home == null || matchResult.Away == null)
                     continue;
 
                 playModel.ScoreTeam1 = result.Doc.First().Data.Match.Result.Home.Value;
@@ -96,10 +98,10 @@ namespace GetBet.Business.PlayModelBusiness
                 if (playModel.ScoreTeam1 > 0 && playModel.ScoreTeam2 > 0)
                     playModel.HasMutualScoring = true;
 
-                if(playModel.ScoreTeam1+playModel.ScoreTeam2>2)
+                if (playModel.ScoreTeam1 + playModel.ScoreTeam2 > 2)
                     playModel.TwoUpGoals = true;
 
-                _unitOfWork.Plays.ReplaceOne(playModel,playModel.Id.ToString());
+                _unitOfWork.Plays.ReplaceOne(playModel, playModel.Id.ToString());
             }
 
             Console.WriteLine($"Maç sonuçları çekildi ve kaydedildi.");
@@ -127,17 +129,17 @@ namespace GetBet.Business.PlayModelBusiness
         {
             StatsModel statsModel = new StatsModel();
 
-            _unitOfWork.Stats.DeleteMany(x=>x.Id!=null);
+            _unitOfWork.Stats.DeleteMany(x => x.Id != null);
 
-            var finishedMatches = _unitOfWork.Plays.FilterBy(x => x.ScoreTeam1!=null && x.ScoreTeam2!=null &&x.DateTime.AddHours(3) < DateTime.Now.AddHours(3)).Result.ToList();
+            var finishedMatches = _unitOfWork.Plays.FilterBy(x => x.ScoreTeam1 != null && x.ScoreTeam2 != null && x.DateTime.AddHours(3) < DateTime.Now.AddHours(3)).Result.ToList();
 
             statsModel.TotalPlay = finishedMatches.Count();
 
             statsModel.HasMutualScoringPlay = finishedMatches.Where(x => x.HasMutualScoring).Count();
 
-            statsModel.TwoUpGoalsPlay = finishedMatches.Where(x =>x.TwoUpGoals).Count();
+            statsModel.TwoUpGoalsPlay = finishedMatches.Where(x => x.TwoUpGoals).Count();
 
-            statsModel.LosePlay = finishedMatches.Where(x =>  !x.TwoUpGoals && !x.HasMutualScoring).Count();
+            statsModel.LosePlay = finishedMatches.Where(x => !x.TwoUpGoals && !x.HasMutualScoring).Count();
 
             string jsonstatsModels = JsonConvert.SerializeObject(statsModel);
 
@@ -157,6 +159,5 @@ namespace GetBet.Business.PlayModelBusiness
             return statsModel;
         }
 
-       
     }
 }

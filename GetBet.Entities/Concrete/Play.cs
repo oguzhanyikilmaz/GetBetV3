@@ -24,6 +24,7 @@
 
         public bool HasMutualScoring { get; set; }
         public bool TwoUpGoals { get; set; }
+        public bool IsIY0MS12 { get; set; }
         public DateTime DateTime { get; set; }
     }
 }
