@@ -131,7 +131,7 @@ namespace GetBet.Business.PlayModelBusiness
 
             _unitOfWork.Stats.DeleteMany(x => x.Id != null);
 
-            var finishedMatches = _unitOfWork.Plays.FilterBy(x => x.ScoreTeam1 != null && x.ScoreTeam2 != null && x.DateTime.AddHours(3) < DateTime.Now.AddHours(3)).Result.ToList();
+            var finishedMatches = _unitOfWork.Plays.FilterBy(x => x.ScoreTeam1 != null && x.ScoreTeam2 != null && x.DateTime.AddHours(3) < DateTime.Now.AddHours(3) && !x.IsIY0MS12).Result.ToList();
 
             statsModel.TotalPlay = finishedMatches.Count();
 
