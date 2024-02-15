@@ -93,6 +93,7 @@ namespace GetBet.Business.MatchBusiness
                     playModel.MS1 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
                     playModel.MS2 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
                     playModel.IsIY0MS12 = true;
+                    playModel.DateTime = Convert.ToDateTime($"{match.D} {match.T}");
 
                     var matchCompetitionHistory = NesineComManager.GetMatchCompetitionHistory(match.C.ToString(), true).Result;
 
