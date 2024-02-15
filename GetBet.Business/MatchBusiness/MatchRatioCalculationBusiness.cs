@@ -78,25 +78,33 @@ namespace GetBet.Business.MatchBusiness
 
             foreach (var match in firstHalfDrawMatchs)
             {
-                bool isAdded = false;
+                try
+                {
+                    bool isAdded = false;
 
-                Play playModel = new Play();
+                    var index = firstHalfDrawMatchs.IndexOf(match);
+                    Play playModel = new Play();
 
-                playModel.MatchId = match.BRID.ToString();
-                playModel.Team1 = match.HN;
-                playModel.Team2 = match.AN;
-                playModel.ZeroAndOneGoal = match.MA.FirstOrDefault(x => x.MTID == 43)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
-                playModel.FourFiveGoal = match.MA.FirstOrDefault(x => x.MTID == 43)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
-                playModel.MS1 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
-                playModel.MS2 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
-                playModel.IsIY0MS12 = true;
+                    playModel.MatchId = match.BRID.ToString();
+                    playModel.Team1 = match.HN;
+                    playModel.Team2 = match.AN;
+                    playModel.ZeroAndOneGoal = match.MA.FirstOrDefault(x => x.MTID == 43)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
+                    playModel.FourFiveGoal = match.MA.FirstOrDefault(x => x.MTID == 43)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
+                    playModel.MS1 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
+                    playModel.MS2 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
+                    playModel.IsIY0MS12 = true;
 
-                var matchCompetitionHistory = NesineComManager.GetMatchCompetitionHistory(playModel.MatchId, true).Result;
+                    var matchCompetitionHistory = NesineComManager.GetMatchCompetitionHistory(match.C.ToString(), true).Result;
 
-                isAdded = FirstHalfDrawMatchsCalculation(playModel, matchCompetitionHistory);
+                    isAdded = FirstHalfDrawMatchsCalculation(playModel, matchCompetitionHistory);
 
-                if (isAdded)
-                    playModels.Add(playModel);
+                    if (isAdded)
+                        playModels.Add(playModel);
+                }
+                catch (Exception)
+                {
+
+                }
 
             }
 
@@ -175,7 +183,7 @@ namespace GetBet.Business.MatchBusiness
             {
                 try
                 {
-                    if (matchCompetitionHistory.D!=null)
+                    if (matchCompetitionHistory.D != null)
                     {
                         var ml = matchCompetitionHistory.D.ML.FirstOrDefault(x => x.TFT == 1);
 
@@ -187,10 +195,10 @@ namespace GetBet.Business.MatchBusiness
 
                         var sonuc = (Convert.ToDouble(tmsFirst.DC) / totalFirstHalfResult) * 100;
 
-                        if (sonuc > 60)
+                        if (sonuc > 60 && totalFirstHalfResult > 4)
                             retVal = true;
                     }
-                    
+
                 }
                 catch (Exception)
                 {
