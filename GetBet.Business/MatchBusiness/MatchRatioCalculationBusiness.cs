@@ -109,7 +109,7 @@ namespace GetBet.Business.MatchBusiness
 
             }
 
-            playModels = playModels.Where(x => x.DateTime.Year == DateTime.Now.Year && x.DateTime.Month == DateTime.Now.Month && x.DateTime.Day == DateTime.Now.Day).ToList();
+            playModels = playModels.Where(x => x.DateTime<DateTime.Now.AddDays(3)).ToList();
 
             return playModels;
         }
