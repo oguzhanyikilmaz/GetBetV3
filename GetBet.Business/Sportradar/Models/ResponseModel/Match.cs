@@ -59,7 +59,7 @@ namespace GetBet.Business.Sportradar.Models.ResponseModel
         public Periods Periods { get; set; }
 
         [JsonProperty("updated_uts")]
-        public int? UpdatedUts { get; set; }
+        public bool UpdatedUts { get; set; }
 
         [JsonProperty("p")]
         public string P { get; set; }
