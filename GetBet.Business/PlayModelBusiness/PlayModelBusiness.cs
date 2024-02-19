@@ -64,12 +64,24 @@ namespace GetBet.Business.PlayModelBusiness
 
                 }
 
-                string jsonPlayModels = JsonConvert.SerializeObject(playModels.OrderBy(x => x.DateTime));
+                string jsonPlayModelsKGVar = JsonConvert.SerializeObject(playModels.Where(x => !x.IsIY0MS12).OrderBy(x => x.DateTime));
 
-                DataTable dt = (DataTable)JsonConvert.DeserializeObject(jsonPlayModels, (typeof(DataTable)));
+                string jsonPlayModelsIsIY0MS12 = JsonConvert.SerializeObject(playModels.Where(x => x.IsIY0MS12).OrderBy(x => x.DateTime));
 
-                MailHelper.SendMail(CHelper.MailToAdresses(), "Oynanabilecek Maçlar", CHelper.ConvertDataTableToHTML(dt));
+                if (!string.IsNullOrEmpty(jsonPlayModelsKGVar))
+                {
+                    DataTable dt = (DataTable)JsonConvert.DeserializeObject(jsonPlayModelsKGVar, (typeof(DataTable)));
 
+                    MailHelper.SendMail(CHelper.MailToAdresses(), "Oynanabilecek Maçlar", CHelper.ConvertDataTableToHTML(dt));
+
+                }
+                if (!string.IsNullOrEmpty(jsonPlayModelsIsIY0MS12))
+                {
+                    DataTable dt2 = (DataTable)JsonConvert.DeserializeObject(jsonPlayModelsIsIY0MS12, (typeof(DataTable)));
+
+                    MailHelper.SendMail(CHelper.MailToAdresses(), "Oynanabilecek Maçlar", CHelper.ConvertDataTableToHTML(dt2));
+
+                }
                 Console.WriteLine($"Maçlar kaydedildi ve mail atıldı.");
 
             }
