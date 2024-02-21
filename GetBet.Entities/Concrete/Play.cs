@@ -3,6 +3,7 @@
     public class Play : BaseModel
     {
         public string MatchId { get; set; }
+        public DateTime DateTime { get; set; }
         public string Team1 { get; set; }
         public string Team2 { get; set; }
         public double? Data { get; set; }
@@ -25,6 +26,5 @@
         public bool HasMutualScoring { get; set; }
         public bool TwoUpGoals { get; set; }
         public bool IsIY0MS12 { get; set; }
-        public DateTime DateTime { get; set; }
     }
 }

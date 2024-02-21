@@ -111,7 +111,7 @@ namespace GetBet.Business.MatchBusiness
 
             playModels = playModels.Where(x => x.DateTime<DateTime.Now.AddDays(3)).ToList();
 
-            return playModels;
+           return playModels;
         }
 
 
@@ -182,8 +182,8 @@ namespace GetBet.Business.MatchBusiness
         {
             bool retVal = false;
 
-            if ((playModel.MS1 > 1.35 && playModel.MS1 < 1.65) || (playModel.MS2 > 1.35 && playModel.MS2 < 1.65))
-            {
+            //if ((playModel.MS1 > 1.35 && playModel.MS1 < 1.65) || (playModel.MS2 > 1.35 && playModel.MS2 < 1.65))
+            //{
                 try
                 {
                     if (matchCompetitionHistory.D != null)
@@ -208,7 +208,7 @@ namespace GetBet.Business.MatchBusiness
                     retVal = false;
                 }
 
-            }
+            //}
 
             return retVal;
         }
