@@ -72,14 +72,14 @@ namespace GetBet.Business.PlayModelBusiness
                 {
                     DataTable dt = (DataTable)JsonConvert.DeserializeObject(jsonPlayModelsKGVar, (typeof(DataTable)));
 
-                    MailHelper.SendMail(CHelper.MailToAdresses(), "Oynanabilecek Maçlar", CHelper.ConvertDataTableToHTML(dt));
+                    MailHelper.SendMail(CHelper.MailToAdresses(), "KG var Oynanabilecek Maçlar", CHelper.ConvertDataTableToHTML(dt));
 
                 }
                 if (!string.IsNullOrEmpty(jsonPlayModelsIsIY0MS12))
                 {
                     DataTable dt2 = (DataTable)JsonConvert.DeserializeObject(jsonPlayModelsIsIY0MS12, (typeof(DataTable)));
 
-                    MailHelper.SendMail(CHelper.MailToAdresses(), "Oynanabilecek Maçlar", CHelper.ConvertDataTableToHTML(dt2));
+                    MailHelper.SendMail(CHelper.MailToAdresses(), "IY 0 Oynanabilecek Maçlar", CHelper.ConvertDataTableToHTML(dt2));
 
                 }
                 Console.WriteLine($"Maçlar kaydedildi ve mail atıldı.");
