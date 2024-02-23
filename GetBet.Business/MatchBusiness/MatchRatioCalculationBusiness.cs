@@ -92,6 +92,7 @@ namespace GetBet.Business.MatchBusiness
                     playModel.FourFiveGoal = match.MA.FirstOrDefault(x => x.MTID == 43)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
                     playModel.MS1 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
                     playModel.MS2 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
+                    playModel.IY0 = match.MA.FirstOrDefault(x => x.MTID == 7)?.OCA.FirstOrDefault(z => z.N == 2)?.O;
                     playModel.IsIY0MS12 = true;
                     playModel.DateTime = Convert.ToDateTime($"{match.D} {match.T}");
 
@@ -109,9 +110,9 @@ namespace GetBet.Business.MatchBusiness
 
             }
 
-            playModels = playModels.Where(x => x.DateTime<DateTime.Now.AddDays(3)).ToList();
+            playModels = playModels.Where(x => x.DateTime < DateTime.Now.AddDays(2)).ToList();
 
-           return playModels;
+            return playModels;
         }
 
 
@@ -181,9 +182,9 @@ namespace GetBet.Business.MatchBusiness
         private bool FirstHalfDrawMatchsCalculation(Play playModel, MatchCompetitionHistory matchCompetitionHistory)
         {
             bool retVal = false;
-
-            //if ((playModel.MS1 > 1.35 && playModel.MS1 < 1.65) || (playModel.MS2 > 1.35 && playModel.MS2 < 1.65))
-            //{
+            //(playModel.MS1 > 1.35 && playModel.MS1 < 1.65) || (playModel.MS2 > 1.35 && playModel.MS2 < 1.65)
+            if (playModel.IY0 != null && playModel.IY0 > 0)
+            {
                 try
                 {
                     if (matchCompetitionHistory.D != null)
@@ -198,7 +199,7 @@ namespace GetBet.Business.MatchBusiness
 
                         var sonuc = (Convert.ToDouble(tmsFirst.DC) / totalFirstHalfResult) * 100;
 
-                        if (sonuc > 60 && totalFirstHalfResult > 4)
+                        if (sonuc > 70 && totalFirstHalfResult > 4)
                             retVal = true;
                     }
 
@@ -208,7 +209,7 @@ namespace GetBet.Business.MatchBusiness
                     retVal = false;
                 }
 
-            //}
+            }
 
             return retVal;
         }

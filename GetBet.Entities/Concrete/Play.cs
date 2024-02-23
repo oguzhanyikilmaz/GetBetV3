@@ -11,6 +11,7 @@
         public double? FourFiveGoal { get; set; }
         public double? MS1 { get; set; }
         public double? MS2 { get; set; }
+        public double? IY0 { get; set; }
         public double? IY1MS0 { get; set; }
         public double? IY2MS0 { get; set; }
         public double? Score10 { get; set; }
