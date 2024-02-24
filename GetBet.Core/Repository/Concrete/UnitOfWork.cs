@@ -12,6 +12,7 @@ namespace GetBet.Core.Repository.Concrete
         private readonly MongoDbContext _context;
         public IRepository<Play> Plays { get; private set; }
         public IRepository<Stats> Stats { get; private set; }
+        public IRepository<IY0StatsModel> IY0Stats { get; private set; }
 
         public IRepository<UserAgent> UserAgent { get; private set; }
 
@@ -21,6 +22,7 @@ namespace GetBet.Core.Repository.Concrete
 
             Plays = new MongoRepositoryBase<Play>(_context);
             Stats = new MongoRepositoryBase<Stats>(_context);
+            IY0Stats = new MongoRepositoryBase<IY0StatsModel>(_context);
             UserAgent = new MongoRepositoryBase<UserAgent>(_context);
 
         }

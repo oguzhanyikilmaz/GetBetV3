@@ -107,11 +107,23 @@ namespace GetBet.Business.PlayModelBusiness
                 playModel.ScoreTeam1 = result.Doc.First().Data.Match.Result.Home.Value;
                 playModel.ScoreTeam2 = result.Doc.First().Data.Match.Result.Away.Value;
 
+                playModel.IYScoreTeam1 = result.Doc.First().Data.Match.Periods?.P1?.Home.Value;
+                playModel.IYScoreTeam2 = result.Doc.First().Data.Match.Periods?.P1?.Away.Value;
+
                 if (playModel.ScoreTeam1 > 0 && playModel.ScoreTeam2 > 0)
                     playModel.HasMutualScoring = true;
 
                 if (playModel.ScoreTeam1 + playModel.ScoreTeam2 > 2)
                     playModel.TwoUpGoals = true;
+
+                if (playModel.IYScoreTeam1 != null && playModel.IYScoreTeam2 != null)
+                {
+                    playModel.IsIY0 = false;
+
+                    if (playModel.IYScoreTeam1 == playModel.IYScoreTeam2)
+                        playModel.IsIY0 = true;
+
+                }
 
                 _unitOfWork.Plays.ReplaceOne(playModel, playModel.Id.ToString());
             }
@@ -137,7 +149,19 @@ namespace GetBet.Business.PlayModelBusiness
         /// Karşılıklı gol veya 2 gol üstü biten maçları ve tutmayan maçların sayılarını çeker.
         /// </summary>
         /// <returns></returns>
-        public StatsModel GetAndAddPlayStats()
+        public void GetAndAddPlayStats()
+        {
+            KGVarPlayStatus();
+
+            IY0PlayStatus();
+
+            Console.WriteLine($"İstatistikler hesaplandı ve eklendi.");
+        }
+
+        /// <summary>
+        /// KG var olan maçların sonuçlarını hesaplar ve tabloya istatistiği yazar.
+        /// </summary>
+        private void KGVarPlayStatus()
         {
             StatsModel statsModel = new StatsModel();
 
@@ -164,11 +188,32 @@ namespace GetBet.Business.PlayModelBusiness
             stats.SuccessRatio = (double)successMatch / stats.TotalPlay * 100;
 
             _unitOfWork.Stats.InsertOne(stats);
+        }
 
-            Console.WriteLine($"İstatistikler hesaplandı ve eklendi.");
+        /// <summary>
+        /// İlk yarı berabere olan maçların sonuçlarını hesaplar ve tabloya istatistiği yazar.
+        /// </summary>
+        private void IY0PlayStatus()
+        {
+            IY0StatsModel statsModel = new IY0StatsModel();
 
+            _unitOfWork.IY0Stats.DeleteMany(x => x.Id != null);
 
-            return statsModel;
+            var finishedMatches = _unitOfWork.Plays.FilterBy(x => x.IYScoreTeam1 != null && x.IYScoreTeam2 != null && x.DateTime.AddHours(3) < DateTime.Now.AddHours(3) && x.IsIY0MS12).Result.ToList();
+
+            statsModel.TotalPlay = finishedMatches.Count();
+
+            statsModel.IY0Play = finishedMatches.Where(x => x.IsIY0.Value == true).Count();
+
+            statsModel.LosePlay = finishedMatches.Where(x => x.IsIY0.Value == false).Count();
+
+            statsModel.CreateDate = DateTime.Now.AddHours(3);
+
+            int successMatch = statsModel.TotalPlay - statsModel.LosePlay;
+
+            statsModel.SuccessRatio = (double)successMatch / statsModel.TotalPlay * 100;
+
+            _unitOfWork.IY0Stats.InsertOne(statsModel);
         }
 
     }

@@ -12,6 +12,7 @@ namespace GetBet.Core.Repository.Abstract
     {
         IRepository<Play> Plays { get; }
         IRepository<Stats> Stats { get; }
+        IRepository<IY0StatsModel> IY0Stats { get; }
         IRepository<UserAgent> UserAgent { get; }
 
     }

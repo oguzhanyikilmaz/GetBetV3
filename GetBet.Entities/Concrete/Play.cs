@@ -18,6 +18,8 @@
         public double? Score01 { get; set; }
         public int? ScoreTeam1 { get; set; }
         public int? ScoreTeam2 { get; set; }
+        public int? IYScoreTeam1 { get; set; }
+        public int? IYScoreTeam2 { get; set; }
         public double? HomeUp05 { get; set; }
         public double? AwayUp05 { get; set; }
         public double? KgRatio { get; set; }
@@ -27,5 +29,6 @@
         public bool HasMutualScoring { get; set; }
         public bool TwoUpGoals { get; set; }
         public bool IsIY0MS12 { get; set; }
+        public bool? IsIY0 { get; set; }
     }
 }
