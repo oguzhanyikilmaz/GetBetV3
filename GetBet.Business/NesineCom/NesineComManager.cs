@@ -17,7 +17,7 @@ namespace GetBet.Business.NesineCom
         {
             var response = _restHelper.Execute<BulletinResponseModel>($"bulten/getprebultenfull", Method.Get, null, "GetPreBulletinFull");
 
-            return response;
+            return await Task.FromResult(response);
         }
 
         public async Task<MatchCompetitionHistory> GetMatchCompetitionHistory(string matchId, bool isApiStats)
@@ -26,8 +26,16 @@ namespace GetBet.Business.NesineCom
 
             var response = _restHelper.Execute<MatchCompetitionHistory>($"v3/HeadToHead/{matchId}/CompetitionHistory", Method.Get, null, "GetMatchCompetitionHistory");
 
-            return response;
+            return await Task.FromResult(response);
         }
 
+        public async Task<LastMatchesModel> GetMatchLastMatches(string matchId)
+        {
+            _restHelper = new RestHelper("https://apistats.nesine.com/api/");
+
+            var response = _restHelper.Execute<LastMatchesModel>($"v3/HeadToHead/{matchId}/LastMatches", Method.Get, null, "GetMatchLastMatches");
+
+            return await Task.FromResult(response);
+        }
     }
 }

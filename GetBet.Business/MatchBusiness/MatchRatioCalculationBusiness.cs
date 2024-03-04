@@ -1,5 +1,6 @@
 ﻿using GetBet.Business.NesineCom;
 using GetBet.Business.NesineCom.Models.ResponseModels;
+using GetBet.Business.Sportradar;
 using GetBet.Entities.Concrete;
 using System;
 
@@ -8,10 +9,13 @@ namespace GetBet.Business.MatchBusiness
     public class MatchRatioCalculationBusiness
     {
         public NesineComManager NesineComManager { get; set; }
+        public SportradarManager SportradarManager { get; set; }
         public MatchRatioCalculationBusiness()
         {
             NesineComManager = new NesineComManager();
+            SportradarManager = new SportradarManager();
         }
+
         /// <summary>
         /// Bültenden gelen response içinde KG var oynanabilicek maçları hesaplar.
         /// </summary>
@@ -115,6 +119,59 @@ namespace GetBet.Business.MatchBusiness
             return playModels;
         }
 
+        /// <summary>
+        /// Bültenden gelen response içinde IY0 oynanabilicek maçları hesaplar.
+        /// </summary>
+        /// <param name="bulletinResponseModel"></param>
+        /// <returns></returns>
+        public List<Play> FirstHalfDrawMatchsV2(BulletinResponseModel bulletinResponseModel)
+        {
+            List<Play> playModels = new List<Play>();
+
+            var firstHalfDrawMatchs = bulletinResponseModel.sg.EA.Where(x => x.TYPE >= 1 && x.MA.Any(z => z.MTID == 1)).ToList();
+
+            foreach (var match in firstHalfDrawMatchs)
+            {
+                try
+                {
+                    bool isAdded = false;
+
+                    var index = firstHalfDrawMatchs.IndexOf(match);
+                    Play playModel = new Play();
+
+                    playModel.MatchId = match.BRID.ToString();
+                    playModel.Team1 = match.HN;
+                    playModel.Team2 = match.AN;
+                    playModel.ZeroAndOneGoal = match.MA.FirstOrDefault(x => x.MTID == 43)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
+                    playModel.FourFiveGoal = match.MA.FirstOrDefault(x => x.MTID == 43)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
+                    playModel.MS1 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
+                    playModel.MS2 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
+                    playModel.IY0 = match.MA.FirstOrDefault(x => x.MTID == 7)?.OCA.FirstOrDefault(z => z.N == 2)?.O;
+                    playModel.IsIY0MS12 = true;
+                    playModel.DateTime = Convert.ToDateTime($"{match.D} {match.T}");
+
+                    if (playModel.DateTime < DateTime.Now.AddDays(2))
+                    {
+                        var lastMatches = NesineComManager.GetMatchLastMatches(match.C.ToString()).Result;
+
+                        isAdded = FirstHalfDrawMatchsCalculationV2(playModel, lastMatches);
+
+                        if (isAdded)
+                            playModels.Add(playModel);
+                    }
+
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
+
+            playModels = playModels.Where(x => x.DateTime < DateTime.Now.AddDays(2)).ToList();
+
+            return playModels;
+        }
 
         /// <summary>
         /// Bol gollü geçecek olan maçları hesaplar.
@@ -214,6 +271,71 @@ namespace GetBet.Business.MatchBusiness
             return retVal;
         }
 
+        /// <summary>
+        /// Maçın takımlarının son maçlarının ilk yarı skorlarına dayanarak ilk yarısı ne kadar berabere bitmiş onu hesaplar ve toplam maça göre beraberlik oranı yüksekse true döner.
+        /// </summary>
+        /// <param name="playModel"></param>
+        /// <param name="matchCompetitionHistory"></param>
+        /// <returns></returns>
+        private bool FirstHalfDrawMatchsCalculationV2(Play playModel, LastMatchesModel lastMatchesModel)
+        {
+            bool retVal = false;
+            double totalMatches = 0;
+            double firstHalfDrawMatchs = 0;
 
+            if (playModel.IY0 != null && playModel.IY0 > 0)
+            {
+                try
+                {
+                    foreach (var ml in lastMatchesModel.D.ML)
+                    {
+                        foreach (var tt in ml.TT)
+                        {
+                            foreach (var tms in tt.TMS)
+                            {
+                                if (tms.ML == null)
+                                    continue;
+
+                                foreach (var tmsMl in tms.ML)
+                                {
+                                    totalMatches++;
+
+                                    var result = SportradarManager.GetMatchResult(tmsMl.MID.ToString()).Result;
+                                    if (result.Doc.First().Data.Match != null)
+                                    {
+                                        var matchResult = result.Doc.First().Data.Match.Result;
+
+                                        if (matchResult == null || matchResult.Home == null || matchResult.Away == null)
+                                            continue;
+
+                                        var IYScoreTeam1 = result.Doc.First().Data.Match.Periods?.P1?.Home.Value;
+                                        var IYScoreTeam2 = result.Doc.First().Data.Match.Periods?.P1?.Away.Value;
+
+                                        if (IYScoreTeam1 != null && IYScoreTeam2 != null)
+                                        {
+                                            if (IYScoreTeam1 == IYScoreTeam2)
+                                                firstHalfDrawMatchs++;
+
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                    var sonuc = (firstHalfDrawMatchs / totalMatches) * 100;
+
+                    if (sonuc > 70 && totalMatches > 4)
+                        retVal = true;
+                }
+                catch (Exception)
+                {
+                    retVal = false;
+                }
+
+            }
+
+            return retVal;
+        }
     }
 }
