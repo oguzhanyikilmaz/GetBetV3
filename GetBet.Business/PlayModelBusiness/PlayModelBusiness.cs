@@ -47,7 +47,7 @@ namespace GetBet.Business.PlayModelBusiness
 
             playModels.AddRange(MatchRatioCalculationBusiness.FirstHalfDrawMatchs(bulletinResponseModel));
 
-            //playModels.AddRange(MatchRatioCalculationBusiness.FirstHalfDrawMatchsV2(bulletinResponseModel));
+            playModels.AddRange(MatchRatioCalculationBusiness.FirstHalfDrawMatchsV2(bulletinResponseModel));
 
             if (playModels.Count() > 0 && playModels != null)
             {

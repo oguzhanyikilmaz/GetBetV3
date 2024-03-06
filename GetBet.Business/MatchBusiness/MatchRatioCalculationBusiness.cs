@@ -325,7 +325,7 @@ namespace GetBet.Business.MatchBusiness
                     }
                     var sonuc = (firstHalfDrawMatchs / totalMatches) * 100;
 
-                    if (sonuc > 70 && totalMatches > 4)
+                    if (sonuc > 60 && totalMatches > 4)
                         retVal = true;
                 }
                 catch (Exception)
