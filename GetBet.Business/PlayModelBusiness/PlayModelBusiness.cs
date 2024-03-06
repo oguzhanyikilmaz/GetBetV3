@@ -45,7 +45,7 @@ namespace GetBet.Business.PlayModelBusiness
 
             var playModels = MatchRatioCalculationBusiness.MutualScoringMatch(bulletinResponseModel);
 
-            playModels.AddRange(MatchRatioCalculationBusiness.FirstHalfDrawMatchs(bulletinResponseModel));
+            //playModels.AddRange(MatchRatioCalculationBusiness.FirstHalfDrawMatchs(bulletinResponseModel));
 
             playModels.AddRange(MatchRatioCalculationBusiness.FirstHalfDrawMatchsV2(bulletinResponseModel));
 
