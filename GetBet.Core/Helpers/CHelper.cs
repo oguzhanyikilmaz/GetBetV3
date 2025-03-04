@@ -42,15 +42,7 @@ namespace GetBet.Core.Helpers
         {
             List<string> adresses = new List<string>();
 
-            adresses.Add("berkaybadur5@gmail.com");
-            adresses.Add("tmkemaldikici@hotmail.com");
-            adresses.Add("mahmutakpinarmkn@outlook.com");
             adresses.Add("oguzhanyklmz27@gmail.com");
-            adresses.Add("alicanoztuvan@icloud.com");
-            adresses.Add("g.saray_mesut@hotmail.com");
-            //adresses.Add("Salihorucuu@gmail.com");
-            //adresses.Add("salihorucuu@gmail.com");
-
 
             return adresses;
         }

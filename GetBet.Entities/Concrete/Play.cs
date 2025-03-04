@@ -6,6 +6,10 @@
         public DateTime DateTime { get; set; }
         public string Team1 { get; set; }
         public string Team2 { get; set; }
+        public double? FirstGoalHomeTeamRatio { get; set; }
+        public double? FirstGoalAwayTeamRatio { get; set; }
+        public double? HomeOneAndHalfOver { get; set; }
+        public double? AwayOneAndHalfOver { get; set; }
         public double? Data { get; set; }
         public double? ZeroAndOneGoal { get; set; }
         public double? FourFiveGoal { get; set; }
@@ -25,7 +29,6 @@
         public double? KgRatio { get; set; }
         public double? Up15Ratio { get; set; }
         public double? Up25Ratio { get; set; }
-
         public bool HasMutualScoring { get; set; }
         public bool TwoUpGoals { get; set; }
         public bool IsIY0MS12 { get; set; }

@@ -35,6 +35,28 @@ namespace GetBet.Business.PlayModelBusiness
             MatchRatioCalculationBusiness = new MatchRatioCalculationBusiness();
             SportradarManager = new SportradarManager();
         }
+        public PlayModelBusiness()
+        {
+            NesineComManager = new NesineComManager();
+            MatchRatioCalculationBusiness = new MatchRatioCalculationBusiness();
+            SportradarManager = new SportradarManager();
+        }
+        public void OneAndHalfOverMatches()
+        {
+            BulletinResponseModel bulletinResponseModel = NesineComManager.GetPreBulletinFull().Result;
+
+            var playModels = MatchRatioCalculationBusiness.FindOneAndHalfOverMatches(bulletinResponseModel);
+
+            string jsonPlayModelsOneAndHalfOver = JsonConvert.SerializeObject(playModels.OrderBy(x => x.DateTime));
+
+            if (!string.IsNullOrEmpty(jsonPlayModelsOneAndHalfOver))
+            {
+                DataTable dt = (DataTable)JsonConvert.DeserializeObject(jsonPlayModelsOneAndHalfOver, (typeof(DataTable)));
+
+                MailHelper.SendMail(CHelper.MailToAdresses(), "1.5 üst Oynanabilecek Maçlar", CHelper.ConvertDataTableToHTML(dt));
+
+            }
+        }
 
         /// <summary>
         /// Oynanabilecek olan maçları DB'ye kayıt eder ve mail gönderir.

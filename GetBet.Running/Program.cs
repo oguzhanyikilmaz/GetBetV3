@@ -26,12 +26,12 @@ class Application
 
     public Application(string[] args)
     {
-        MongoSettings mongoSettings = new MongoSettings();
+        //MongoSettings mongoSettings = new MongoSettings();
 
-        mongoSettings.ConnectionString = "mongodb+srv://oguzzyklmzz:Bayer19770.@carparkcluster.cg0as.mongodb.net/";
-        mongoSettings.Database = "CarParkDB";
+        //mongoSettings.ConnectionString = "mongodb+srv://oguzzyklmzz:Bayer19770.@carparkcluster.cg0as.mongodb.net/";
+        //mongoSettings.Database = "CarParkDB";
 
-        PlayModelBusiness playModelBusiness = new PlayModelBusiness(mongoSettings);
+        PlayModelBusiness playModelBusiness = new PlayModelBusiness();
 
         foreach (string arg in args)
         {
@@ -39,9 +39,10 @@ class Application
             {
                 case "-Start":
                     Console.WriteLine($"Uygulama başladı.");
-                    playModelBusiness.GetMatchResultsAndSaveDB();
-                    playModelBusiness.GetAndAddPlayStats();
-                    playModelBusiness.AddDBAndSendMailPlayModel();
+                    playModelBusiness.OneAndHalfOverMatches();
+                    //playModelBusiness.GetMatchResultsAndSaveDB();
+                    //playModelBusiness.GetAndAddPlayStats();
+                    //playModelBusiness.AddDBAndSendMailPlayModel();
                     Console.WriteLine($"Uygulama bitti.");
                     break;
 

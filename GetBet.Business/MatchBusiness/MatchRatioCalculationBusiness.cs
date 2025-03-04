@@ -17,6 +17,73 @@ namespace GetBet.Business.MatchBusiness
         }
 
         /// <summary>
+        /// Bültendeki 1.5 olacak maçları bulur.
+        /// </summary>
+        /// <param name="bulletinResponseModel"></param>
+        /// <returns></returns>
+        public List<Play> FindOneAndHalfOverMatches(BulletinResponseModel bulletinResponseModel)
+        {
+            List<Play> playModels = new List<Play>();
+
+            var matches = bulletinResponseModel.sg.EA.Where(x => x.TYPE >= 1 && x.MA.Any(z => z.MTID == 291)).ToList();
+
+            foreach (var match in matches)
+            {
+                bool isAdded = false;
+
+                Play playModel = new Play();
+
+                playModel.MatchId = match.BRID.ToString();
+                playModel.Team1 = match.HN;
+                playModel.Team2 = match.AN;
+                playModel.ZeroAndOneGoal = match.MA.FirstOrDefault(x => x.MTID == 43)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
+                playModel.FourFiveGoal = match.MA.FirstOrDefault(x => x.MTID == 43)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
+                playModel.MS1 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
+                playModel.MS2 = match.MA.FirstOrDefault(x => x.MTID == 1)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
+                playModel.DateTime = Convert.ToDateTime($"{match.D} {match.T}");
+                playModel.HasMutualScoring = false;
+                playModel.TwoUpGoals = false;
+
+                playModel.FirstGoalHomeTeamRatio = match.MA.FirstOrDefault(x => x.MTID == 291)?.OCA.FirstOrDefault(z => z.N == 1)?.O;
+
+                playModel.FirstGoalAwayTeamRatio = match.MA.FirstOrDefault(x => x.MTID == 291)?.OCA.FirstOrDefault(z => z.N == 3)?.O;
+
+                playModel.HomeOneAndHalfOver = match.MA.FirstOrDefault(x => x.MTID == 20)?.OCA.FirstOrDefault(z => z.N == 2)?.O;
+
+                playModel.AwayOneAndHalfOver = match.MA.FirstOrDefault(x => x.MTID == 29)?.OCA.FirstOrDefault(z => z.N == 2)?.O;
+
+                double difference = 5;
+
+                if (playModel.FirstGoalHomeTeamRatio != null && playModel.FirstGoalAwayTeamRatio != null && playModel.HomeOneAndHalfOver != null && playModel.AwayOneAndHalfOver != null)
+                {
+                    if (playModel.FirstGoalHomeTeamRatio < playModel.FirstGoalAwayTeamRatio)
+                    {
+                        var homeDifference = playModel.FirstGoalHomeTeamRatio - playModel.HomeOneAndHalfOver;
+
+                        if (homeDifference <= 0.02 && homeDifference >= -0.02)
+                            isAdded = true;
+                    }
+
+                    if (playModel.FirstGoalHomeTeamRatio > playModel.FirstGoalAwayTeamRatio)
+                    {
+                        var awayDifference = playModel.FirstGoalAwayTeamRatio - playModel.AwayOneAndHalfOver;
+
+                        if (awayDifference <= 0.02 && awayDifference >= -0.02)
+                            isAdded = true;
+                    }
+                }
+
+                if (isAdded)
+                    playModels.Add(playModel);
+
+            }
+
+            playModels = playModels.Where(x => x.DateTime.Year == DateTime.Now.Year && x.DateTime.Month == DateTime.Now.Month && x.DateTime.Day == DateTime.Now.Day).ToList();
+
+            return playModels;
+        }
+
+        /// <summary>
         /// Bültenden gelen response içinde KG var oynanabilicek maçları hesaplar.
         /// </summary>
         /// <param name="bulletinResponseModel"></param>
